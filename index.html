@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Para Lys 💙</title>
+<style>
+*{box-sizing:border-box}
+:root{--bg:#030711;--blue:#5caeff;--ice:#d8efff;--muted:#9eafc1;--card:rgba(12,22,39,.78)}
+html,body{margin:0;min-height:100%;background:var(--bg);color:#eef7ff;font-family:Georgia,serif}
+body{overflow-x:hidden}
+button{font:inherit}
+.scene{min-height:100vh;display:grid;place-items:center;position:relative;padding:28px 18px;background:
+radial-gradient(circle at 50% 25%,rgba(55,130,210,.16),transparent 38%),
+linear-gradient(180deg,#02050d 0%,#061225 58%,#02050d 100%)}
+.stars{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.star{position:absolute;width:2px;height:2px;border-radius:50%;background:#dff3ff;opacity:.75;animation:twinkle 3s ease-in-out infinite}
+@keyframes twinkle{50%{opacity:.18;transform:scale(.65)}}
+.panel{position:relative;width:min(720px,100%);min-height:650px;display:flex;align-items:center;justify-content:center;text-align:center}
+.page{display:none;width:100%;animation:in .8s ease both}
+.page.active{display:block}
+@keyframes in{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.kicker{color:var(--blue);letter-spacing:.22em;text-transform:uppercase;font:600 12px Arial,sans-serif}
+h1{font-size:clamp(42px,12vw,78px);margin:16px 0 12px;font-weight:500}
+h2{font-size:clamp(30px,8vw,52px);margin:12px 0 20px;font-weight:500}
+p{font-size:clamp(18px,4.5vw,25px);line-height:1.65;margin:12px auto;max-width:650px}
+.soft{color:#c5d4e2}
+.heart{font-size:72px;color:var(--blue);text-shadow:0 0 30px rgba(92,174,255,.5);animation:beat 2s ease-in-out infinite}
+@keyframes beat{50%{transform:scale(1.08)}}
+.btn{margin-top:28px;border:1px solid rgba(150,210,255,.45);background:rgba(50,110,175,.18);color:#eef8ff;padding:14px 24px;border-radius:999px;cursor:pointer;min-width:170px;transition:.25s}
+.btn:active{transform:scale(.97);background:rgba(80,150,220,.3)}
+.flower-field{height:310px;position:relative;margin:10px auto 0;max-width:600px}
+.ground{position:absolute;bottom:24px;left:5%;right:5%;height:2px;background:linear-gradient(90deg,transparent,#487ca8,transparent)}
+.seed{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);font-size:48px;transition:.5s}
+.flower{position:absolute;bottom:25px;font-size:36px;opacity:0;transform:translateY(25px) scale(.4);transition:1s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 0 9px rgba(83,169,255,.35))}
+.flower.show{opacity:1;transform:translateY(0) scale(1)}
+.note{background:var(--card);border:1px solid rgba(150,210,255,.16);border-radius:24px;padding:25px 22px;margin:20px auto;max-width:650px;box-shadow:0 15px 55px rgba(0,0,0,.35)}
+.note p{margin:0}
+.reveal{min-height:92px;display:grid;place-items:center}
+.fadeword{animation:fade .9s ease both}
+@keyframes fade{from{opacity:0;filter:blur(8px)}to{opacity:1;filter:none}}
+.couple{font-size:84px;letter-spacing:-18px;margin:18px 0;color:#dff3ff;text-shadow:0 0 22px rgba(90,170,255,.3)}
+.constellation{font-size:54px;color:var(--blue);letter-spacing:.25em;margin:20px 0}
+.final-flower{font-size:64px;animation:grow 2s ease both}
+@keyframes grow{from{opacity:0;transform:scale(.1) rotate(-20deg)}to{opacity:1;transform:none}}
+.progress{position:absolute;top:10px;left:50%;transform:translateX(-50%);font:12px Arial,sans-serif;color:#71879d;letter-spacing:.12em}
+.small{font:14px Arial,sans-serif;color:#8195aa}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="scene">
+  <div class="stars" aria-hidden="true"></div>
+  <main class="panel">
+    <div class="progress" id="progress"></div>
+
+    <section class="page active" data-page="1">
+      <div class="kicker">Para Lys</div>
+      <h1>Lys…</h1>
+      <p class="soft">Esta vez no te hice algo para decirte cuánto te amo.</p>
+      <p>Te hice algo para mostrarte por qué. 💙</p>
+      <button class="btn next">Entrar ✨</button>
+    </section>
+
+    <section class="page" data-page="2">
+      <div class="kicker">Algo que descubrí de vos</div>
+      <h2>Me enamoré de tu forma de ser.</h2>
+      <div class="note">
+        <div class="heart">♥</div>
+        <p>De lo sensible que sos.<br>De lo cariñosa que podés llegar a ser.<br>De esa manera tan tuya de hacerme sentir querido sin siquiera darte cuenta.</p>
+      </div>
+      <button class="btn next">Seguir 💙</button>
+    </section>
+
+    <section class="page" data-page="3">
+      <div class="kicker">Y hay algo que quizás no sabés…</div>
+      <h2>Me encanta cuando me cantás.</h2>
+      <div class="note">
+        <p>No importa qué canción sea.<br>Podría escucharte cantar una y otra vez.</p>
+        <div class="reveal" id="songReveal"><p class="small">Tocá para descubrir algo</p></div>
+      </div>
+      <button class="btn" id="songBtn">🎵 Decime algo</button>
+      <button class="btn next" style="display:none" id="songNext">Seguir 💙</button>
+    </section>
+
+    <section class="page" data-page="4">
+      <div class="kicker">Quiero que conmigo puedas ser vos</div>
+      <h2>No tenés que esconder tu parte sensible.</h2>
+      <div class="note">
+        <p>Si algún día estás feliz, quiero celebrarlo con vos.</p>
+        <p>Si algún día estás triste, no quiero que tengas que esconderlo.</p>
+        <p>Y si alguna vez necesitás llorar, no voy a pensar menos de vos.</p>
+        <p><strong>Podés mostrarme esa parte de vos.</strong><br>También merece ser querida. 💙</p>
+      </div>
+      <button class="btn next">Seguir 🫂</button>
+    </section>
+
+    <section class="page" data-page="5">
+      <div class="kicker">Lo que provocás en mí</div>
+      <h2>Desde que llegaste…</h2>
+      <div class="note">
+        <p>Hay días que simplemente se sienten más bonitos.</p>
+        <p>Me hacés sonreír.<br>Me hacés querer compartir cosas con vos.<br>Y me hace feliz saber que existís en mi vida.</p>
+      </div>
+      <div class="constellation">D ♥ L</div>
+      <button class="btn next">Hay algo más… ✨</button>
+    </section>
+
+    <section class="page" data-page="6">
+      <div class="kicker">Lys…</div>
+      <div class="note">
+        <p>No sé qué forma va a tener nuestro futuro.</p>
+        <p>Todavía nos queda muchísimo por conocernos.</p>
+        <p>Pero sí sé algo.</p>
+      </div>
+      <div class="couple">🫶</div>
+      <h2>Quiero descubrirlo con vos.</h2>
+      <button class="btn next">Seguir 💙</button>
+    </section>
+
+    <section class="page" data-page="7">
+      <div class="kicker">Y quiero seguir…</div>
+      <div class="note">
+        <p>Escuchando tus canciones.</p>
+        <p>Conociendo tus pequeñas cosas.</p>
+        <p>Haciéndote sonreír.</p>
+        <p><strong>Y quiero que nunca tengas que dudar de que sos importante para mí.</strong> 💙</p>
+      </div>
+      <button class="btn next">Una última cosa…</button>
+    </section>
+
+    <section class="page" data-page="8">
+      <div class="final-flower">🌷</div>
+      <h2>Gracias por ser vos, Lys.</h2>
+      <p>Esto no es una promesa de que todo será perfecto.</p>
+      <p>Es una promesa mucho más sencilla:</p>
+      <p><strong>mientras nos seguimos descubriendo, quiero cuidarte, escucharte y quererte bonito.</strong></p>
+      <div class="heart">♥</div>
+      <p class="soft">Esto es solo el comienzo. 💙</p>
+      <button class="btn" id="restart">Volver a empezar ✨</button>
+    </section>
+  </main>
+</div>
+
+<script>
+(() => {
+  const root=document.querySelector('.scene');
+  const pages=[...root.querySelectorAll('.page')];
+  const progress=root.querySelector('#progress');
+  let current=0;
+  function show(n){
+    current=(n+pages.length)%pages.length;
+    pages.forEach((p,i)=>p.classList.toggle('active',i===current));
+    progress.textContent=current===0?'':`${current} / ${pages.length-1}`;
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  root.querySelectorAll('.next').forEach(b=>b.addEventListener('click',()=>show(current+1)));
+  root.querySelector('#restart').addEventListener('click',()=>show(0));
+
+  const songBtn=root.querySelector('#songBtn');
+  const songReveal=root.querySelector('#songReveal');
+  const songNext=root.querySelector('#songNext');
+  songBtn.addEventListener('click',()=>{
+    songReveal.innerHTML='<p class="fadeword">Porque cuando cantás, no escucho solamente una canción.<br><strong>Te escucho a vos. 💙</strong></p>';
+    songBtn.style.display='none';
+    songNext.style.display='inline-block';
+  });
+
+  const stars=root.querySelector('.stars');
+  for(let i=0;i<75;i++){
+    const s=document.createElement('i');
+    s.className='star';
+    s.style.left=(Math.random()*100)+'%';
+    s.style.top=(Math.random()*100)+'%';
+    s.style.animationDelay=(Math.random()*3)+'s';
+    s.style.opacity=(.25+Math.random()*.65).toFixed(2);
+    stars.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
